@@ -37,7 +37,7 @@ nav > a:not(.button) { text-decoration: none; }
 .hero { position: relative; width: calc(100% - (2 * var(--pad))); max-width: var(--max); height: min(74vw, 820px); min-height: 610px; margin: 0 auto; color: white; overflow: hidden; }
 .hero > img, .hero-shade { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .hero-shade { background: rgba(0, 0, 0, .35); }
-.hero-content { position: relative; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.hero-content { position: relative; height: 100%; padding: 0 28px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
 .hero blockquote { margin: 0 0 28px; font-family: var(--heading); font-size: clamp(38px, 5vw, 76px); font-weight: 400; line-height: 1.08; letter-spacing: 0.02em; }
 .hero cite { font-family: var(--heading); font-size: clamp(26px, 2.2vw, 34px); font-style: normal; letter-spacing: 0.04em; }
 .text-link { margin-top: 76px; padding-bottom: 7px; border-bottom: 1px solid currentColor; font-family: var(--heading); font-size: 13px; text-decoration: none; }
@@ -224,9 +224,11 @@ input:focus, textarea:focus { border-color: #000; box-shadow: 0 0 0 1px #000; }
   .menu-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   .menu-toggle.active span:nth-child(2) { opacity: 0; }
   .menu-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-  .hero { width: calc(100% - 30px); height: 108vw; min-height: 420px; max-height: 520px; }
-  .hero blockquote { font-size: 38px; letter-spacing: 0.01em; }
-  .hero cite { font-size: 24px; }
+  /* 1:1 på mobil, så billedet ikke beskæres og der er plads til overskriften */
+  .hero { width: calc(100% - 30px); height: auto; aspect-ratio: 1 / 1; min-height: 0; max-height: none; }
+  .hero-content { padding: 0 22px; }
+  .hero blockquote { font-size: clamp(30px, 9vw, 38px); letter-spacing: 0.01em; }
+  .hero cite { font-size: 22px; }
   .text-link { margin-top: 54px; }
   .section-shell { padding: 82px var(--pad); }
   h1 { font-size: 43px; }
