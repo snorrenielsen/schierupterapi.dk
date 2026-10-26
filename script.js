@@ -23,6 +23,19 @@ toggle?.addEventListener('click', updateHeader);
 // Skjul headeren ved scroll ned, vis den igen ved scroll op
 // ---------------------------------------------------------------
 const siteHeader = document.querySelector('.site-header');
+
+function layoutBanner() {
+  const hidden = banner?.classList.contains('is-hidden');
+  if (!banner || hidden) {
+    if (siteHeader) siteHeader.style.top = '';
+    document.body.style.paddingTop = '';
+    document.body.classList.add('banner-hidden');
+    return;
+  }
+  document.body.classList.remove('banner-hidden');
+}
+layoutBanner();
+window.addEventListener('load', layoutBanner);
 let lastScrollY = window.scrollY;
 let scrollTicking = false;
 
@@ -32,13 +45,16 @@ function updateHeader() {
   const menuOpen = toggle?.classList.contains('active');
   const y = Math.max(0, window.scrollY);
 
-  if (menuOpen || y < 120) {
-    siteHeader?.classList.remove('is-hidden');
-  } else if (y > lastScrollY) {
-    siteHeader?.classList.add('is-hidden');
+  const hide = !(menuOpen || y < 120) && y > lastScrollY;
+  if (hide) {
+    const top = parseInt(siteHeader?.style.top) || 0;
+    if (siteHeader) siteHeader.style.transform = 'translateY(calc(-100% - ' + top + 'px))';
+    banner?.classList.add('is-hidden-scroll');
   } else {
-    siteHeader?.classList.remove('is-hidden');
+    if (siteHeader) siteHeader.style.transform = '';
+    banner?.classList.remove('is-hidden-scroll');
   }
+  layoutBanner();
 
   lastScrollY = y;
 }
@@ -48,6 +64,31 @@ window.addEventListener('scroll', () => {
   scrollTicking = true;
   window.requestAnimationFrame(updateHeader);
 }, { passive: true });
+
+// Banner luk
+const banner = document.getElementById('site-banner');
+if (banner && localStorage.getItem('site-banner-dismissed') === '1') {
+  banner.classList.add('is-hidden');
+  document.body.classList.add('banner-hidden');
+}
+document.querySelectorAll('[data-banner-close]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    banner?.classList.add('is-hidden');
+    document.body.classList.add('banner-hidden');
+    try { localStorage.setItem('site-banner-dismissed', '1'); } catch (e) {}
+    layoutBanner();
+  });
+});
+
+// Nulstil hash, FAQ og formularer ved indlæsning af forsiden
+if (location.pathname.endsWith('index.html') || location.pathname === '/' || location.pathname.endsWith('/')) {
+  if (location.hash) {
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+  document.querySelectorAll('details[open]').forEach(d => d.removeAttribute('open'));
+  document.querySelectorAll('form').forEach(f => f.reset());
+  window.scrollTo(0, 0);
+}
 
 // FAQ-ankere
 // "Læs mere"-links i kortene peger på #parterapi, #familieterapi og
