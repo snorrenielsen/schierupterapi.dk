@@ -47,7 +47,7 @@ function updateHeader() {
 
   const hide = !(menuOpen || y < 120) && y > lastScrollY;
   if (hide) {
-    const top = parseInt(siteHeader?.style.top) || 0;
+    const top = parseInt(getComputedStyle(siteHeader).top) || 0;
     if (siteHeader) siteHeader.style.transform = 'translateY(calc(-100% - ' + top + 'px))';
     banner?.classList.add('is-hidden-scroll');
   } else {
