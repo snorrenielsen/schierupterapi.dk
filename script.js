@@ -23,9 +23,6 @@ toggle?.addEventListener('click', updateHeader);
 // Skjul headeren ved scroll ned, vis den igen ved scroll op
 // ---------------------------------------------------------------
 const siteHeader = document.querySelector('.site-header');
-// Skjul headeren ved scroll ned, vis den igen ved scroll op
-// ---------------------------------------------------------------
-const siteHeader = document.querySelector('.site-header');
 const banner = document.getElementById('site-banner');
 function layoutBanner() {
   const hidden = banner?.classList.contains('is-hidden');
@@ -87,23 +84,18 @@ const tilbudDetails = document.querySelector('.contact-layout--tilbud .contact-d
 const tilbudForm = document.querySelector('.contact-layout--tilbud .form');
 if (tilbudDetails && tilbudForm) {
   function matchTilbud() {
+    if (window.innerWidth <= 700) {
+      tilbudDetails.style.height = '';
+      const img = tilbudDetails.querySelector('img');
+      if (img) { img.style.maxHeight = ''; img.style.width = ''; img.style.objectFit = ''; }
+      return;
+    }
     tilbudDetails.style.height = tilbudForm.offsetHeight + 'px';
     const img = tilbudDetails.querySelector('img');
     if (img) { img.style.maxHeight = '100%'; img.style.width = 'auto'; img.style.objectFit = 'contain'; }
   }
   matchTilbud();
   window.addEventListener('resize', matchTilbud);
-}
-
-// Nulstil hash, FAQ og formularer ved indlæsning af forsiden
-if (location.pathname.endsWith('index.html') || location.pathname === '/' || location.pathname.endsWith('/')) {
-  if (location.hash) {
-    history.replaceState(null, '', location.pathname + location.search);
-  }
-  document.querySelectorAll('details[open]').forEach(d => d.removeAttribute('open'));
-  document.querySelectorAll('form').forEach(f => f.reset());
-  window.scrollTo(0, 0);
-}
 }
 
 // FAQ-ankere

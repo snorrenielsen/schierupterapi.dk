@@ -337,3 +337,9 @@ textarea::placeholder { color: #555; font-style: italic; }
 .contact-layout--tilbud { grid-template-columns: 1fr 1fr; align-items: center; }
 .contact-layout--tilbud .contact-details { display: flex; justify-content: center; align-items: center; }
 .contact-layout--tilbud .about-portrait { max-width: 400px; }
+
+@media (max-width: 700px) {
+  .contact-layout--tilbud { grid-template-columns: 1fr; gap: 32px; }
+  .contact-layout--tilbud .contact-details { height: auto !important; }
+  .contact-layout--tilbud .about-portrait { max-width: 260px; }
+}
