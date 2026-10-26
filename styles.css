@@ -216,9 +216,9 @@ input:focus, textarea:focus { border-color: #000; box-shadow: 0 0 0 1px #000; }
 
 @media (max-width: 700px) {
   :root { --pad: 15px; --header-h: 60px; }
-  .site-banner { min-height: 90px; align-items: center; }
-  .site-header { top: 90px; }
-  body { padding-top: calc(90px + var(--header-h)); }
+  .site-banner { min-height: 120px; align-items: center; }
+  .site-header { top: 120px; }
+  body { padding-top: calc(120px + var(--header-h)); }
   body.banner-hidden .site-header { top: 0; }
 body.banner-hidden { padding-top: var(--header-h); }
   body.banner-hidden { padding-top: var(--header-h); }
