@@ -20,18 +20,20 @@ button, input, textarea { font: inherit; }
 .sr-only, .skip-link { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .skip-link:focus { z-index: 100; top: 12px; left: 12px; width: auto; height: auto; margin: 0; padding: 12px 18px; background: #fff; color: #000; clip: auto; }
 
-body { padding-top: var(--header-h); }
+body { padding-top: calc(40px + var(--header-h)); }
 
 /* Fast header, der skjuler sig ved scroll ned og dukker op ved scroll op.
    Hvid baggrund ligger på hele bredden, indholdet er stadig begrænset til --max. */
-.site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 10; height: var(--header-h); padding: 10px max(var(--pad), calc((100% - var(--max)) / 2)); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: #fff; transition: transform .3s ease; }
-.site-header.is-hidden { transform: translateY(-100%); }
+.site-header { position: fixed; top: 40px; left: 0; right: 0; z-index: 10; height: var(--header-h); padding: 10px max(var(--pad), calc((100% - var(--max)) / 2)); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; background: #fff; transition: transform .3s ease; }
+.site-header.is-hidden { transform: translateY(calc(-100% - 40px)); }
 .brand { width: 220px; }
 .brand img { width: 100%; height: auto; object-fit: contain; object-position: left center; }
 nav { grid-column: 3; display: flex; align-items: center; justify-content: flex-end; gap: clamp(20px, 2.5vw, 40px); font-family: var(--heading); font-size: 13px; }
 nav > a:not(.button) { text-decoration: none; }
 .button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 25px; border: 0; border-radius: 999px; color: #fff; background: #252525; text-decoration: none; font-family: var(--heading); font-size: 13px; cursor: pointer; }
 .button-header { min-height: 46px; padding-inline: 25px; }
+.button-offer { min-height: 46px; padding-inline: 25px; background: transparent; color: #b08968; border: 2px solid #b08968; }
+.button-offer:hover { background: #b08968; color: #fff; }
 .menu-toggle { display: none; }
 
 .hero { position: relative; width: calc(100% - (2 * var(--pad))); max-width: var(--max); height: min(74vw, 820px); min-height: 610px; margin: 0 auto; color: white; overflow: hidden; }
@@ -160,7 +162,7 @@ input:focus, textarea:focus { border-color: #000; box-shadow: 0 0 0 1px #000; }
 .button-outline { color: #252525; background: transparent; box-shadow: inset 0 0 0 1.5px #252525; }
 .button-outline:hover { color: #fff; background: #252525; }
 
-.checklist { max-width: 760px; margin: 0 auto; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.checklist { max-width: 760px; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
 .checklist li { padding: 26px 0 26px 34px; position: relative; border-bottom: 1px solid var(--line); text-align: left; line-height: 1.65; }
 .checklist li::before { content: ""; position: absolute; top: 35px; left: 8px; width: 9px; height: 9px; border-radius: 50%; background: #252525; }
 .checklist strong { display: block; margin-bottom: 4px; font-family: var(--heading); font-size: clamp(18px, 2vw, 23px); font-weight: 400; line-height: 1.25; letter-spacing: -.02em; }
@@ -214,6 +216,12 @@ input:focus, textarea:focus { border-color: #000; box-shadow: 0 0 0 1px #000; }
 
 @media (max-width: 700px) {
   :root { --pad: 15px; --header-h: 60px; }
+  .site-banner { min-height: 90px; align-items: center; }
+  .site-header { top: 90px; }
+  body { padding-top: calc(90px + var(--header-h)); }
+  body.banner-hidden .site-header { top: 0; }
+body.banner-hidden { padding-top: var(--header-h); }
+  body.banner-hidden { padding-top: var(--header-h); }
   .site-header { padding-block: 15px; grid-template-columns: 1fr auto; }
   .brand { width: 88px; z-index: 2; }
   .menu-toggle { z-index: 2; width: 36px; height: 30px; padding: 3px; display: flex; flex-direction: column; justify-content: space-around; border: 0; background: transparent; }
@@ -261,7 +269,71 @@ input:focus, textarea:focus { border-color: #000; box-shadow: 0 0 0 1px #000; }
   .site-footer { gap: 35px; }
 }
 
+/* Banner */
+.site-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1001;
+  transform: translateY(0);
+  transition: transform .3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px 40px 10px 16px;
+  background: #b08968;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.site-banner.is-hidden { display: none; }
+.site-banner.is-hidden-scroll { transform: translateY(-100%); }
+body.banner-hidden .site-header { top: 0; }
+body.banner-hidden { padding-top: var(--header-h); }
+.site-banner-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+}
+.banner-cta { white-space: nowrap; text-decoration: underline; }
+.banner-cta { white-space: nowrap; }
+.site-banner-close {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+.field-help {
+  font-size: 14px;
+  color: #555;
+  margin: 8px 0 4px;
+  font-style: italic;
+}
+textarea::placeholder { color: #555; font-style: italic; }
+.form-trust {
+  font-size: 13px;
+  color: #666;
+  margin-top: 8px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; }
 }
+
+.tilbud-intro h1 { font-size: clamp(26px, 5vw, 36px); line-height: 1.35; border-bottom: 1px solid #c9c9c9; padding-bottom: 16px; margin-bottom: 24px; }
+
+.tilbud-intro h2, .tilbud-copy h2 { font-size: clamp(26px, 5vw, 36px); line-height: 1.35; margin-top: 24px; }
+
+.contact-layout--tilbud { grid-template-columns: 1fr 1fr; align-items: center; }
+.contact-layout--tilbud .contact-details { display: flex; justify-content: center; align-items: center; }
+.contact-layout--tilbud .about-portrait { max-width: 400px; }
